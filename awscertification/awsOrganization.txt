@@ -1,0 +1,36 @@
+Global Infrastructure
+
+	Availability Zone (AZ)
+		physically separated and isolated Availability Zones
+		connected with fiber optic low latency, high throughput, and highly redundant networking
+	Edge locations 	
+		Datacenter that does not contain any AWS services
+		Currently 96+ edge locations throughout the world
+		used to deliver content to parts of world without AWS services
+		Put close to customers who want to access data
+		store static files to reduce latency to those users
+		End points for AWS used for caching content
+		e.g. CloudFront – Amazon’s Content Delivery Network (CDN)
+	Regions
+		geographical area
+		Each region consists of 2 or more AZs		
+		Some services do work globally and not just in a region (e.g. IAM)
+		Comprised of availability zones
+			One or more in each region
+			Physically separate from each other 
+			Low latency connection between AZs
+			AZs are made up of one or more data centers
+		made up of availability zones
+			independent data centers
+			applications use multiple AZs to provide failover and load balancing
+			If one AZ becomes unavailable, it can failover to another AZ
+			direct low latency connections between each
+		put servers in the region closest to the users
+		some laws require systems in a certain location
+			e.g. some countries in Europe require all data to be housed in that country
+		when viewing a region in the AWS console, you see all AZs in that region
+		some AWS services work globally and not tied to a region
+			IAM users
+			although users can be restricted to a certain region
+ 
+
