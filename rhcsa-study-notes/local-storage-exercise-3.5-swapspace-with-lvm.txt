@@ -1,0 +1,47 @@
+# install LVM utilities
+yum install lvm2
+
+# Create a new primary partition that uses the entire disk space on /dev/xvdf.
+fdisk /dev/xvdf
+
+set as type 8e
+
+save it by entering w
+
+# run partprobe
+partprobe
+
+# Create a physical volume and a new volume group named "battlestar" out of the /dev/xvdf1 partition.
+pvcreate /dev/xvdf1
+vgcreate battlestar /dev/xvdf1
+
+# Create a new LVM volume that is approximately 500M in size 
+lvcreate -n swap -L 500M battlestar
+
+# Format the new LVM volume with a swap signature.
+mkswap /dev/battlestar/swap
+
+# get the blkid of the device
+blkid /dev/xvdf1
+
+# Add an entry into the /etc/fstab file using the UUID of the LVM device to create a persistent swap mount.
+UUID=679ea5a2-c652-458a-8726-6e3970d1f58f swap swap defaults 0 0 
+
+# Run the swapon command that enables all swap entires in the /etc/fstab file.
+swapon -a
+
+# Verify swap space is working.
+free -m
+
+OR
+
+swapon -s
+
+OR
+
+cat /proc/swaps
+
+# Reboot and test.
+reboot
+
+

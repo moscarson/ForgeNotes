@@ -1,0 +1,31 @@
+# Create a primary Linux partition that is 500M in size on the attached disk.
+fdisk xvdf
+
+set type to 83
+
+w
+
+# run partprobe
+partprobe
+
+# Create an XFS filesystem on the disk.
+mkfs -t xfs /dev/xvdf1
+
+# Issue the command to list the block device and it's UUID (Universally Unique Identifier).
+blkid
+
+# Mount the partition to /mnt/mymount.
+mkdir /mnt/mymount
+mount /dev/xvdf1 /mnt/mymount
+df -h
+
+# get the blkid of the device
+blkid
+
+# vim fstab 
+UUID="your uuid here" /mnt/mymount xfs defaults 1 1
+
+# unmount it and remount it to ensure correct entry in fstab
+umount /mnt/mymount
+mount -a
+df -h

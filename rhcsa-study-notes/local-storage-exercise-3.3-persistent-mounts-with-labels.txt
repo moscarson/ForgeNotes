@@ -1,0 +1,38 @@
+# Create two partitions, 500M each, on the device.
+fdisk /dev/xvdf
+set type to linux
+
+# run partprobe
+partprobe
+
+# On the "xvdf1" partition, create an XFS file system.
+mkfs -t xfs xvdf1
+
+# On the "xvdf2" partition, create an EXT4 file system.
+mkfs -t ext4  xvdf2
+
+# On the "xvdf1" partition, label the filesystem as "filesystem1".
+xfs_admin -L "filesystem1" /dev/xvdf1
+xfs_admin -l /dev/xvdf1
+label = "filesystem1"
+
+# On the "xvdf2"partition, label the filesystem as "filesystem2".
+tune2fs -L "filesystem2" /dev/xvdf2
+
+OR
+
+e2label /dev/xvdf2 
+filesystem2
+
+# Create two directories, /mnt/mount1 and /mnt/mount2, to be used as mount points.
+mkdir -p /mnt/mount1 /mnt/mount2
+
+# Create a persistent mount in the /etc/fstab file with defaults as the mount 
+# option for the xvdf1 partition and use the mount point /mnt/mount1.
+LABEL=filesystem1 /mnt/mount1 xfs defaults 1 2 
+
+# Create a persistent mount in the /etc/fstab file with defaults as the mount 
+# option for the xvdf2 partition and use the mount /mnt/mount2. Set the fsck 
+# check to 2 and the dump to 1.
+LABEL=filesystem2 /mnt/mount2 ext4 defaults 1 2
+

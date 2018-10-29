@@ -1,0 +1,16 @@
+# Create a primary Linux partition that is 500M in size on the attached disk.
+gdisk xvdf
+
+Command (? for help): n
+Partition number (1-128, default 1): 
+First sector (34-2097118, default = 2048) or {+-}size{KMGTP}
+Last sector (2048-2097118, default = 2097118) or {+-}size{KMGTP}: +500M
+Current type is 'Linux filesystem'
+Hex code or GUID (L to show codes, Enter = 8300): 8300
+Changed type of partition to 'Linux filesystem'
+Command (? for help): w
+
+Do you want to proceed? (Y/N): Y
+OK; writing new GUID partition table (GPT) to xvdf.
+
+remaining tasks are same as other partition

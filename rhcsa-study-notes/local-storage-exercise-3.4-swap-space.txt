@@ -1,0 +1,32 @@
+# Create a primary Linux partition that is 500M in size on the attached disk.
+gdisk xvdf
+
+n
+
+type 	8300
+
+w
+
+# Create an XFS filesystem on the disk.
+mkfs -t xfs /dev/xvdf1.
+
+# Issue the command to list the block device and its UUID.
+blkid
+
+# Mount the partition to /mnt/mymount.
+mkdir /mnt/mymount
+mount /dev/xvdf1 /mnt/mymount
+
+# Configure the disk to mount automatically during system boot to the /mnt/mymount mount point.
+blkid
+/dev/xvdf1: UUID="" TYPE="xfs" 
+
+# edit /etc/fstab
+vim /etc/fstab 
+
+UUID="your uuid here" /mnt/mymount        xfs     defaults 1 1
+
+# check fstab
+umount /mnt/mymount
+mount -a
+df -h
