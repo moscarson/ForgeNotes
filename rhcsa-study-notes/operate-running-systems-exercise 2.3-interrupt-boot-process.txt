@@ -1,0 +1,12 @@
+1. Start or reboot a system to get to the boot menu.
+
+2. Press any key to stop the auto selection of a GRUB item.
+
+3. Ensure the kernel you intend to boot into is highlighted and press the E key to edit the entry.
+
+4. Navigate to the "linux16" kernel line and hit the End key to go to the end of the line.
+
+5. Append the new target to the linux16 kernel line.
+systemd.unit=rescue.target
+
+6. Continue booting into the system with Ctrl + X.

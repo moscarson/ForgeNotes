@@ -1,0 +1,63 @@
+##################
+Exercise 1
+##################
+# As the root user, create a job running in the background of your current terminal. 
+# Execute the script for that program process to be created.
+(while true; do echo "My program" > ~/output.file; done) &
+
+# View the current jobs running in the background of your terminal.
+jobs
+[1]-  Running   ( while true; do< echo -n "My program" >> ~/output.file; done ) &
+
+# Stop the process from running, without killing the process, using the kill command.
+kill -SIGSTOP %1 (%1 is the job number, if the job was 2 it would be %2)
+
+# View the stopped jobs in the background.
+jobs
+[1]+  Stopped     ( while true; do echo -n "My program" >> ~/output.file; done ) &
+
+# Start the process again using the kill command.
+kill -SIGCONT %1
+
+# Kill the process without allowing any blocking of the kill command.
+kill -SIGKILL %1
+
+##################
+Exercise 2
+##################
+
+# Download and install the httpd service.
+yum install httpd
+
+# Start the httpd service (or ensure that it is running).
+systemctl start httpd
+
+# As the root user, grep for all processes that are running as the root user and display the process names.
+pgrep -u root -l
+
+# As the user user, start the vi program at the terminal.
+vi
+
+# As the root user, in your second terminal window, grep for all processes running under the user "user" and include the process names.
+# pgrep -u user -l
+3690 dconf-service
+3694 vim
+...etc additional output cut off.
+
+# As the root user, grep for the "httpd" process.
+pgrep httpd
+
+# As the root user, kill all of the "user" user's processes and boot that user from the system.
+w
+
+USER     TTY        LOGIN@   IDLE   JCPU   PCPU WHAT
+user pts/0     Mon22    2:58m  0.05s  0.05s bash
+
+# Kill every process started from the user's terminal, but it does not boot the user. 
+pkill -t pts/0
+
+# Now find all running processes left, which should either be Bash or SSH.
+pgrep -u user
+pkill -u user ssh
+
+

@@ -1,0 +1,19 @@
+# Ensure that you have the httpd package installed on the system.
+yum install httpd
+
+# Ensure the httpd service is not running.
+systemctl stop httpd
+
+# Start the httpd service with the most favorable nice possible.
+nice -n -20 httpd
+
+# View the current nice of the httpd service using the ps command and grep command together.
+ps axo pid,comm,nice | grep httpd 
+
+OR
+
+# This allows you to sort by nice level.
+ps axo pid,comm,nice --sort=-nice | grep httpd 
+
+# Renice all httpd processes and set the nice level to 0.
+renice -n 0 $(pgrep httpd)
