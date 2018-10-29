@@ -1,0 +1,53 @@
+# Install the httpd package.
+yum install httpd
+
+# View all active targets on the system.
+systemctl list-units --type=target
+
+# View all targets installed on the disk.
+systemctl list-units --type=target --all
+
+# Display the current default target.
+systemctl get-default
+
+# Change the default target to the multi-user target 
+# if the multi-user target is available.
+systemctl list-units --type=target | grep multi-user.target
+multi-user.target   loaded active active Multi-User System
+
+systemctl set-default multi-user.target
+
+# View all available systemd configuration units.
+systemctl -t help
+
+# Find the status of the sshd service.
+systemctl status sshd.service
+
+# List all active service unit configuration files.
+systemctl --type=service 
+
+OR
+
+systemctl list-units --type=service
+
+# Determine if the httpd service is active.
+systemctl is-active httpd
+
+# Determine if the httpd service is enabled, and, if 
+# it is not, enable it.
+systemctl is-enabled httpd
+
+# View enabled and disabled settings for all units of the 
+type "service".
+systemctl list-unit-files --type=service --all
+
+# List all service unit configuration files, whether they 
+# are active or not.
+systemctl list-units --all
+
+OR
+
+systemctl list-units --type=service --all
+
+
+

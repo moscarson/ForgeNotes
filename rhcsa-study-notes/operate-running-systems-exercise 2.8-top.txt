@@ -1,0 +1,17 @@
+# start the top program.
+top
+
+# Sort all processes by memory percentage.
+Press "Shift" + "M"
+
+# Sort all processes by CPU usage.
+Press "Shift" + "P"
+
+# Renice the process for the script started at the beginning 
+# of the exercise. The command is  "bash", as displayed in 
+# the top program. Set the nice level to -20.
+Press the "R" key, enter the process id of the process you want to renice, and set the nice level.
+
+# Kill the bash script using top.
+Press the "K" key and enter the process ID of the process you 
+wish to kill, then press enter.
