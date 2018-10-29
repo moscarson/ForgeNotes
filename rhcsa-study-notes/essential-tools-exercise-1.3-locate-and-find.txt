@@ -1,0 +1,19 @@
+Exercise: Finding Files with locate and find
+
+1. Download and install the locate utility.
+
+[root@anthony1 ~]# yum install mlocate
+2. Using the locate utility, search for the "motd" file on the system.
+
+[root@localhost ~]# locate motd
+/etc/motd
+...
+3. Add a new user on the system called "mary".
+
+[root@localhost ~]# useradd mary
+4. Using the find utility, remove all files owned by mary.
+
+[root@localhost ~]# find / -user mary -exec rm {} \;
+5. Using the find utility, find all files that were modified in the last 3 days.
+
+[root@localhost ]# find / -mtime -3

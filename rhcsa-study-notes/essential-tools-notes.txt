@@ -1,0 +1,113 @@
+# get target - shows multi-user.target
+systemctl get-default
+
+# .bash_profile
+executed whenever entering a shell for that user
+
+# touch command.  do not create file if it does not already exist
+touch -c file1
+
+# create compressed tar file
+tar cvfz compressed.gz f1.txt f2.txt
+
+# uncompress and extract .gz file
+tar xzvf compressed.gz
+
+# look at diffences between local files and what is in tar archive
+tar -dvf compressed.gz
+
+# create bzip file
+bzip2 file1.txt
+
+# see compression info in gzip file
+gzip -l hello.gz
+
+# work with star command
+yum install star
+
+# create new archive
+star -c -f=myarchive.tar dir1 file2 file3
+star -v -f=myarchive.tar
+
+# extract it.  it will not overwrite files on system that are same as or newer than what is in tar
+star -x -f=myarchive.tar
+
+# extract just one file
+star -x -f=myarchive.tar file2
+
+# create compressed archive
+star -cz -f=myarchive.tar file2 file3
+
+# man pages
+# passwd file format is in section 5
+man 5 passwd
+
+# run mandb to cache and index man pages.  replaces catman?
+mandb
+
+# info utility is more modern.  man pages not updated as much
+
+# info does not have an info page for passwd so it shows man page instead
+info passwd
+
+# info pages
+located in /usr/share/info
+
+info info
+
+hit n to move to next section
+hit u to go to top level
+hit p to move back one section
+hit home for top of curent page
+hit end for bottom of current page
+
+hit ? key for how to navigate all of this
+
+# view info secitons
+ls /usr/share/info
+
+do info on one of those sections
+
+# go to info page of tee command
+info coreutils tee
+
+# show misc docs
+ls /usr/share/doc
+
+# update locate database
+yum install mlocate
+updatedb
+
+locate passwd
+which passwd
+whatis passwd
+
+# get summary of package
+whereis passwd
+
+# show documents of package
+rpm -qd httpd
+
+# umask
+
+# configuration for interactive shell
+/etc/bashrc
+
+# configuration for login shell
+/etc/profile
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

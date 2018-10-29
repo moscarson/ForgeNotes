@@ -1,0 +1,37 @@
+install virtual box
+
+install a RHEL7 server
+
+download and memorize study guide
+
+take practice quizes and score 100% on each
+
+only have access to man pages during the test
+
+***************
+vnc set up
+***************
+# ensure it is installed
+which vncserver
+
+# set a passwd
+vncpasswd
+
+# start it at command prompt.  determine which instance is running.  e.g. :1 is instance 1
+vncserver
+
+# vncplugin available for google chrome
+
+# connect to public IP address with browser
+http://[ip]:5901
+
+# kill instance 1 of vnc server
+vncserver -kill :1
+
+# enable and start it.  :1 equates to port 5901
+systemctl enable vncserver@:1 
+systemctl start vncserver@:1
+systemctl status vncserver@:1
+
+# is it running?
+ps aws|grep vnc
