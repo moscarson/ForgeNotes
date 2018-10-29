@@ -1,0 +1,102 @@
+# Create a second user on the system called "starbuck".  
+useradd starbuck; passwd starbuck
+
+# Open a second terminal window for the lab server, and connect as the 
+# user starbuck. Ensure you're working as a priviledged user (sudo) or 
+# root user while performing the lab. The starbuck user will be used to test 
+# setting the permissions.
+
+# Navigate into the /tmp directory, create two new directories named 
+# "dir1" and "dir2" and two files called "file1" and "file2".
+cd /tmp
+mkdir {dir1,dir2}; touch {file1,file2}
+
+# Idenity if any of the files currently have extended access control lists associated with them.
+ls -l
+
+# Set an ACL for the starbuck user to read and write for file1.
+setfacl -m u:starbuck:rw file1
+
+getfacl file1
+
+# file: file1
+# owner: root
+# group: root
+user::rw-
+user:starbuck:rw-
+group::r--
+mask::rw-
+other::r--
+
+# Set the mask on file1 to read only, then as the starbuck user, 
+# attempt to execute the following command.  why does it fail?
+
+setfacl -m m::r file1
+
+getfacl file1
+# file: file1
+# owner: root
+# group: root
+user::rw-
+user:starbuck:rw- #effective:r--
+group::r--
+mask::r--
+other::r--
+
+Starbuck's Terminal
+[starbuck@localhost tmp]$ echo "test "> /tmp/file1
+-bash: /tmp/file1: Permission denied
+
+Summary: Starbuck was unable to write to file1 even though they had an ACL with rw, because the mask was setting the "maximum" permissions to r and was masking w.
+
+# Set the default permissions on dir1 to read, write and execute for the 
+# starbuck user; execute only if it is a directory.
+setfacl -d -m u:starbuck:rwX dir1
+
+getfacl dir1
+# file: dir1
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+default:user::rwx
+default:user:starbuck:rwx
+default:group::r-x
+default:mask::rwx
+default:other::r-x
+
+# Using setfacl, change the "other" permissions to none on file1.
+setfacl -m o::- file1
+ls -l
+
+total 8
+drwxr-xr-x+ 2 root root 6 May  5 20:00 dir1
+drwxr-xr-x. 2 root root 6 May  5 20:00 dir2
+-rw-rw----+ 1 root root 0 May  5 20:00 file1
+-rw-r--r--. 1 root root 0 May  5 20:00 file2
+
+# Remove the default permissions from dir1.
+setfacl --remove-default dir1
+
+getfacl dir1
+
+# file: dir1
+# owner: root
+# group: root
+user::rwx
+group::r-x
+other::r-x
+
+# Remove all ACLs on file1.
+setfacl --remove-all file1
+
+getfacl file1
+# file: file1
+# owner: root
+# group: root
+user::rw-
+group::r--
+other::---
+
+

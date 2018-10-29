@@ -1,0 +1,44 @@
+# Write a command that issues a statement to the system log with the 
+# current uptime information. Schedule this command to run one minute from now.
+at now +1 minute
+at> logger "The system current uptime is $(uptime)"
+
+Wait one minute 
+
+# check the system log to view the entry. 
+journalctl -f
+
+# Create a new at job that runs at teatime but performs the same log entry as step 1.
+at teatime
+at> logger "The system current uptime is $(uptime)"
+
+# Turn the uptime script from step one into an executable script file 
+# located in /home/user/ called "uptimelog".
+
+vim /home/user/uptimelog
+logger "The system current uptime is $(uptime)"
+
+chmod +x /home/user/uptimelog
+
+# Schedule an anacronjob so that the script runs every 5 days if it 
+# has not currently been run; make sure the job name is "uptimelog".
+# Note: place the entry at the top of the other entries so it is run first.
+
+vim /etc/anacrontab
+
+5       0       uptimelog       /home/user/uptimelog
+
+# Run all anacronjobs regardless of their last run timestamp.
+anacron -f
+
+# View the anacron timestamps for your uptimelog job.
+cat /var/spool/anacron/uptimelog
+
+# Using the same /home/user/uptimelog script, schedule the script to run 
+# once a day using cron.
+cp /home/user/uptimelog /etc/cron.daily/
+
+# Create a custom scheduled cron that runs the uptimelog every 5 minutes. 
+vim /etc/cron.d/uptimelog
+
+*/5 * * * * root /home/user/uptimelog

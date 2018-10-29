@@ -1,0 +1,43 @@
+# Mount the rhel-server-7.1-x86_64-dvd.iso located in /root home directory 
+# to /repos/local (be sure to create /repos/local).
+mkdir -p /repos/local
+mount -o loop rhel-server-7.1-x86_64-dvd.iso /repos/local
+
+# Manually create the repo configuration file in the proper location with 
+# the proper information, assume no GPG.
+vim /etc/yum.repos.d/local.repo
+
+[local-repo]
+name=Red Hat Linux Local Repo
+baseurl=file:///repos/local
+enabled=1 
+gpgcheck=0
+
+# For testing, disable or delete all other repos except the local repo. 
+# Please note, if you delete them you will need to rebuild your lab server.
+
+# Clean previous yum repo information (clean the cache)
+yum clean all
+
+# View all enabled repos.
+yum repolist
+
+# Download and install emacs and, on the install screen, verify it is being 
+# installed from the local-repo.
+yum install emacs
+
+# Remove emacs.
+yum remove emacs
+
+# Configure the local.repo to use GPG to verify that the packages are legitimate. 
+# (This is most commonly used for remote repositories. However, for the exercise 
+# it will be easier since it's all included as part of the iso and local machine.)
+
+[local-repo]
+name=Red Hat Linux Local Repo
+baseurl=file:///repos/local
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-redhat-release
+
+ 

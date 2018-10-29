@@ -1,0 +1,24 @@
+# Download the "nano" RPM package using yumdownloader and change the package name to nano.rpm for this exercise.
+yumdownloader nano
+
+mv nano-2.3.xxxxx.rpm nano.rpm
+
+# Install the nano program. 
+rpm -ivh nano.rpm
+
+# Query to see if nano is in fact installed.
+rpm -qa nano
+
+# List all files installed as part of nano.
+rpm -ql nano
+
+# List all documentation parts of the RPM package and it's location.
+rpm -qd nano
+
+# Remove the nano package.
+rpm -e nano
+
+# Query to see if the package is installed.
+rpm -qa | grep nano
+
+ 

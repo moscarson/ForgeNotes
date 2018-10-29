@@ -1,0 +1,29 @@
+# Download and install the proper packages to manage virtual machines 
+# on a Red Hat 7 machine. Ensure you install the GUI as well as the 
+# command line interface.
+yum install virt-manager qemu-kvm qemu-img libvirt libvirt-python python-virtinst libvirt-client
+
+OR
+
+yum grouplist hidden // This will show virtualization packages
+yum groupinstall "Virtualization Client"
+yum groupinstall "Virtualization Tools"
+yum groupinstall "Virtualization Platform"
+
+# Ensure that the virtual machine services start when the system boots and is currently running.
+systemctl start libvirtd
+systemctl enable libvirtd
+
+# Create a CentOS-based virtual machine using the GUI.
+virt-manager
+
+# Configure the virtual machine to auto start whenever the system starts.
+virsh
+virsh autostart vmname
+
+OR, at the virsh commandline:
+
+Virsh # autostart vmname
+
+# Reboot and test the configuration.
+reboot

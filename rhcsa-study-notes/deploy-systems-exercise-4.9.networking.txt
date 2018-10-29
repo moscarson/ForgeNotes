@@ -1,0 +1,33 @@
+# View the current hostname.
+hostname
+
+# Set temporary hostname in the shell to "myserver.domain.com".
+hostname myserver.domain.com; exec bash
+
+# For the "System eth0" connection, 
+# add the following DNS for the resolv.conf file 8.8.8.8. 
+# Ensure the changes are persistent after a reboot.
+nmcli con mod "System eth0" +ipv4.dns 8.8.8.8
+
+# Modify your hostname to ensure it is a permanent change on the 
+# system (persistent and will survive reboots).
+
+Note: You can edit the /etc/hostname file or perform the following command.
+
+hostnamectl set-hostname myserver.domain.com
+
+# Add a file based host entry so the domain linuxacademy.com points to 10.0.0.1
+echo "10.0.0.1 linuxacademy.com" >> /etc/hosts
+
+getent hosts linuxacademy.com
+
+10.0.0.1        linuxacademy.com
+
+# Open the correct file that determines the lookup order of DNS (file based vs external).
+vim /etc/nsswitch.conf
+
+# View TCP ports on the system that are listening for connections and 
+# view ports that have established connections. 
+ss -tan
+
+ 
