@@ -1,0 +1,243 @@
+# reboot system
+reboot 
+OR
+systemctl reboot
+OR
+shutdown -r
+
+# shut down in 5 minutes.  send message to users
+shutdown -r +5 System going down for a reboot
+
+# reboot system at midnight
+shutdown -r 00:00
+
+# cancel the reboot request
+shutdown -c
+
+# poweroff system
+systemctl halt
+OR
+shutdown -P
+
+# reboot now
+shutdown -r now
+OR
+shutdown -r +0 
+
+# targets
+# run services needed at that target level
+ls /usr/lib/systemd/system/*target
+
+# Boot systems into different targets manually
+# show 
+systemctl -t help
+
+list-units
+
+Multi-user target can be a dependency of graphical target
+
+# What targets are installed
+systemctl list-units --type=target
+
+# there are many targets
+# 4 common targets
+
+# command line, not graphics
+multi-user.target
+
+# gui
+graphical.target
+
+# root command prompt, mount file system read-only
+emergency.target
+
+# single user mode, minimum requirements loaded
+rescue.target
+
+# switch between targets
+systemctl isolate [desired target]
+systemctl isolate multi-user.target
+
+# get current target
+systemctl get-default
+
+# set default target to be used at next reboot
+systemctl set-default multi-user.target
+
+# see all systemctl unit types available
+systemctl -t help
+
+# service unit configuration files
+cd /usr/lib/systemd/system
+
+# configure service with dependencies and relationships with other services
+cat sshd.service
+
+ExecStartPre			do this before starting
+ExecStart				do this when starting
+ExecReload				do this when reloading
+
+[Install]				when service is enabled, this section gets the service added to the appropriate target level
+WantdBy					when set, it adds itself to that target’s unit configuration file
+						When system moves into that target, this unit configuration file is called
+
+# show services to run at a given target level
+# note that the multi-user.target includes the basic.target so all services there are enabled in multi-user.target
+systemctl list-dependencies multi-user.target
+
+# graphical.target includes multi-user.target
+systemctl list-dependencies graphical.target|grep multi-user.target
+
+# setting default target results in a soft link pointing to the default target
+/usr/lib/systemd/system/default.target -> graphical.target
+
+# system configuration files
+/usr/lib/systemd/system
+
+# config files for custom, third party, or other apps.  Anything in /etc/system/system dir with same
+# name as that in /usr/lib/system/system will override it; i.e.  /etc overrides /usr
+/etc/system/system
+
+Everything in /usr/lib/systemd/system is called first
+
+Then everything in /etc/systemd/system is called next
+
+# interrupt boot process to gain access to a system
+Hit e at bootup to edit
+Edit the line starting with linux16 /vmlinuz
+Append to line:  system.unit=rescue.target
+Ctrl-x to continue boot process
+
+#######################################################
+Identify CPU/Memory Intensive Processes, Adjust Process 
+Priority and Kill Processes
+#######################################################
+
+# pgrep
+# combine grep and ps
+pgrep httpd
+# show name of process
+pgrep httpd -l
+# show processes owned by user
+pgrep -u username -l
+# look for specific process
+pgrep -u username -l vim
+# look for processes not owned by root user
+pgrep -v -u root -l
+
+# pkill
+# pkill by process name
+pkill httpd
+
+# show all kill signals
+kill -l
+# do a nice kill
+kill -15 httpd
+kill -SIGTERM httpd
+# kill hung process imediately
+kill -9 httpd
+# signals
+1		SIGHUP		hang up process
+2		SIGINT		same as ctrl-c on keyboard
+3		SIGQUIT		request process to quit
+9		SIGKILL
+15		SIGTERM		default of kill command
+18		SIGCONT		stop process and start it again later
+19		SIGSTOP		stop process that cannot be ignored
+20		SIGTSTP		sends stop that can be ignored
+
+# cleanly boot user from system
+# do a w to get the pts they are logged in as
+w
+# kill everything associated with it
+pkill -t pts/1
+# get other processes owned by user
+pgrep -u username -l
+# kill the ssh process for that user should log him out
+pkill -u username sshd
+# confirm logged out
+w
+
+# create process and send to background
+(while true; do echo -n "My Program" >> ~/outputfile.txt; sleep 1; done) &
+# find processes running in background
+jobs
+# stop (but do not terminate) processes
+kill -SIGSTOP [ job number]
+kill -SIGSTOP %1
+# confirm stopped
+jobs
+# now terminate it
+kill %1
+# confirm
+jobs
+
+# view processes by niceness level
+ps axo
+# show process ID, command, and nice level
+ps axo pid,comm,nice
+# show command options 
+man ps
+
+# niceness levels
+19		least favorable
+-20		most favorable
+
+# start httpd with a higher priority, i.e. niceness level 0
+systemctl stop httpd
+# start it with level 0 niceness
+nice -n 0 httpd		
+# confirm it
+ps aux pid,comm,nice | grep httpd
+# change priority of httpd without stopping and restarting it
+renice -n [level] [pid]
+renice -n 10 ${pgrep httpd}
+
+# run tar with lowest priority and time it
+time nice -n 19 tar cvf bigfile.tar bigfile.txt
+
+# run tar with hightest priority and time it
+time nice -n -20 tar cvf bigfile.tar bigfile.txt
+
+# only root user can give it higher priority
+# ordinary users can give it lower priority
+
+# show users online, load average, and uptime
+# load average is shown for last 1 minute, last 5 minutes, and last 15 minutes
+w
+
+# show load average for last 1 minute, last 5 minutes, and last 15 minutes
+uptime
+
+# show how many CPUs on system
+cat /proc/cpuinfo|grep processor|wc -l
+
+# divide CPU load by number of CPUs to actual CPU percentage used
+
+# can renice processes in top command
+top
+enter pid and new niceless level
+# processes shown in top are update every [count] seconds
+top -d [count]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
