@@ -23,7 +23,7 @@ shutdown -P
 shutdown -r now
 OR
 shutdown -r +0 
-
+################################################################################################
 # targets
 # run services needed at that target level
 ls /usr/lib/systemd/system/*target
@@ -102,7 +102,9 @@ Everything in /usr/lib/systemd/system is called first
 
 Then everything in /etc/systemd/system is called next
 
-# interrupt boot process to gain access to a system
+#######################################################
+interrupt boot process to gain access to a system
+#######################################################
 Hit e at bootup to edit
 Edit the line starting with linux16 /vmlinuz
 Append to line:  system.unit=rescue.target
@@ -219,11 +221,105 @@ top
 enter pid and new niceless level
 # processes shown in top are update every [count] seconds
 top -d [count]
+#######################################################
+# system log files
+#######################################################
+
+cd /var/log
+
+# rhel7 messaging overview
+man systemd-journald
+
+# view logs
+# all info inside of journal daemon
+# reboot wipes out messages
+journalctl
+# show last 10 lines
+journalctl -n
+# show additional info about log messages
+journalctl -xn
+# can make data persistent
+vi /etc/systemd/journald.conf
+
+# view list of available units
+systemctl -t help
+
+# view log messages for a given service
 
 
+# syslog configuration
 
 
+# look at messages of certain level
+journalctl -p debug
+journalctl -p alert
+journalctl -p info
+journalctl -p crit
+journalctl -p err
+journalctl -p warning
+journalctl -p notice
 
+# get messages since yesterday
+journalctl --since=yesterday
+
+
+# know how and where logs are stored
+# see this for info
+man rsyslog.conf
+configured by facility.level
+
+# see info about boot process
+systemd-analyze
+
+# time for each configuration file bootup process
+systemd-analyze blame
+
+#######################################################
+VM manager
+#######################################################
+
+# run VM manager from command line
+virt-manager
+
+# accces VM console
+system tools, virtual machine manager
+double-click virtual machine
+
+# start and stop virtual machines
+virsh
+help
+
+# show running virtual machines
+list
+
+# show all virtual machines
+list --all
+
+# stop VM
+shutdown [VM name]
+
+# start, stop, and enable network services
+
+# show network services
+systemctl list-units | grep network
+
+# restart network
+# inclusion of the .service is optional.  can do either
+systemctl restart network
+OR
+systemctl restart network.service
+
+# is networking enabled
+systemctl is-enabled network
+
+#######################################################
+securely transfer files between systems
+#######################################################
+
+no notes from this section
+
+
+#######################################################
 
 
 
