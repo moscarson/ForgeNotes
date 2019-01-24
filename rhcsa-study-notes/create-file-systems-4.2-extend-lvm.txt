@@ -1,0 +1,56 @@
+
+# create a new partition
+fdisk xvdf
+	be sure to label it with type 8e
+	
+# create physical volume
+pvcreate /dev/xvdf1
+
+# create VG
+vgcreate battlestar /dev/xvdf1
+
+# create lv
+lvcreate -n gallactica  -L 1g battlestar
+
+# create filesystem
+mkfs -t xfs /dev/battlestar/gallactica
+
+# mount it
+mkdir /mnt/myvolume
+mount /dev/battlestar/gallactica /mnt/myvolume
+
+cd /mnt/myvolume
+touch file1
+touch file2
+
+# create gpt-based partition
+gdisk xvdg
+	new partition
+	type set to 8e00	linux LVM
+	
+# add it to current volume group
+pvcreate /dev/xvdg1
+vgextend battlestar /dev/xvdg1
+
+# move everything off of /dev/xvdf1 onto another volume in the same volume group
+pvmove /dev/xvdf1
+
+# remove pv from vg
+vgreduce battlestar /dev/xvdf1
+
+# lvextend logical volume.  make it 5 GiB in size
+lvextend -L 5G /dev/battlestar/gallactica
+
+# add another 5 GiB
+lvextend -L +5G /dev/battlestar/gallactica
+
+# now expand file system to utilize new space (use resize2fs for ext file systems)
+xfs_growfs /mnt/myvolume
+
+
+
+
+
+
+
+

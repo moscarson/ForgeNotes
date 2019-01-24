@@ -1,0 +1,68 @@
+
+# create vfat file system if sharing file system to windows using samba
+mkfs -t vfat /dev/xvdf1
+
+# create mount point
+mkdir /mnt/vfat
+
+# manually mount it
+mount /dev/xvdf1 /mnt/vfat
+
+# make it persistent
+vi /etc/fstab
+	/dev/xvdf1 /mnt/vfat vfat defaults 1 2
+
+# create and mount ext4 file system
+mkfs -t ext4 /dev/xvdf1
+mkdir /mnt/ext4
+mount /dev/xvdf1 /mnt/ext4
+
+# check file system
+# it will not run on mounted file system.  have to unmount it first
+fsck.vfat /dev/xvdf1
+fsck.ext4 /dev/xvdf1
+	
+# get info about filesystem
+dumpe2fs /dev/xvdf1	
+
+# create xfs file system
+mkfs -t xfs /dev/xvdf1
+
+# get info about xfs file system
+xfs_info /dev/xvdf1
+
+# create a label
+umount /dev/xvdf1
+xfs_admin -L newlabel /dev/xvdf1
+
+# repair it
+umount /dev/xvdf1
+xfs_repair /dev/xvdf1
+###############################################################################################
+# CIFS allows shares from Linux to Windows and vice-versa using samba
+# install utilities
+yum -y install samba-client cifs-utils nfs-utils
+
+# what shares are available on the server.  run this from the client
+smbclient -L 10.0.0.100
+
+# create mounts
+mkdir -p /mnt/sambashare /mnt/nfsshare
+
+# mount based on the share name.  make it prompt for password
+mount -t cifs -o username=linuxacademy //10.0.0.100/public /mnt/sambashare
+
+# mount unix file system based on directory name
+mount -t nfs 10.10.0.100:/nfsshare /mnt/nfsshare
+
+# make mounts persistent
+vi /etc/fstab
+//10.0.0.100/public		/mnt/sambashare		cifs	username=linuxacademy,password=123456	0 0
+10.0.0.100:/nfsshare	/mnt/nfsshare		nfs		defaults								0 0
+
+
+
+
+
+
+
