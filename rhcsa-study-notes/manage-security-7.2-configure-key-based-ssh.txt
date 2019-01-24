@@ -1,0 +1,27 @@
+# files
+id_rsa						private key
+id_rsa.pub					public key.  used to verify private key.  can be out in the open Internet
+authorized_keys				holds public keys from other servers
+
+# create key
+# rsa is a little bit faster than dsa
+# they both have the same strength
+
+# defaults to type of rsa
+ssh-keygen
+
+# specify type of rsa.
+# use a passphrase with it
+ssh-keygen -t rsa
+
+ssh-copy-id username@IP [remote IP] 
+
+
+# make it to where you do not have to enter passphrase
+# this is for current login shell only.  not persistent
+ssh-agent bash
+ssh-add
+	enter passphrase
+	
+	
+

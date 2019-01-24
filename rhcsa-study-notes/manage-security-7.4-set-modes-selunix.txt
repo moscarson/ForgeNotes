@@ -1,0 +1,16 @@
+# get current mode
+getenforce
+
+# go to permissive mode
+# goes back to default at next reboot
+setenforce 0
+
+# go to enforcement mode
+setenforce 1
+
+# make setting permanent
+/etc/selinux/config
+	SELINUX=enforcing
+	SELINUX=permissive
+	SELINUX=disabled
+	

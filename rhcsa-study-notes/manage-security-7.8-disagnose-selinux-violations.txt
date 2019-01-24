@@ -1,0 +1,33 @@
+# install SE troubleshooting tools
+yum install setroubleshoot-server
+
+# do this to cause selinux alert
+setsebool httpd_enable_homedirs off
+
+# then browse to web page
+
+# view audit for selinux violations
+cat /var/log/audit/audit.log
+
+sealert -a /var/log/audit/audit.log
+
+# configure it to use /content directory as web page
+vi /etc/httpd/conf/httpd.conf
+
+	change /var/www/html to /content
+	
+mkdir /content
+chown apache:apache /content
+echo "this is my website" > /content/index.html
+
+# restart apache
+systemctl restart httpd	
+
+# generate errors by navigating to site
+go to [IP]/index.html
+
+# then view alerts
+sealert -a /var/log/audit/audit.log
+
+should see alerts on the /content directory or files within it
+

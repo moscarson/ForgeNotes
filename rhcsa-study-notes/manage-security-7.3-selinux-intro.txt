@@ -1,0 +1,21 @@
+SeLinux
+	- a set of rules that determine what process can access specific files and locations on a file system
+	
+	- a context is assigned to every process, directory, and port which is used to determine if a process can access that resource
+	
+	- SeLinux has three modes
+		enabled
+		passive/permissive - monitor and report, but not enforce
+		disabled
+			configured in /etc/selinux/config
+			must reboot for it to take effect
+			
+boolean
+	conditional rule that allows runtime modification of the security policy without having to load a new policy
+	e.g. enable httpd_enable_cgi to allow cgi scripts to be executed 
+	
+man pages
+	booleans(8)
+	selinux(8)
+	getsebool(8)
+	setsebool(8)

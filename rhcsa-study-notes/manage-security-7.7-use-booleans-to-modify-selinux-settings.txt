@@ -1,0 +1,47 @@
+# regardless of fcontexts configure on system, disable all access to cgi using boolean
+
+# list available booleans and current setting
+getsebool -a
+
+# list boolean and default setting for them.  State, Default, and Description
+semanage boolean --list
+
+# install apache
+yum install httpd -y
+systemctl start httpd
+systemctl enable httpd
+
+# change configuration
+sed -i 's/disabled/public_html/' /etc/httpd/conf.d/userdir.conf
+systemctl restart httpd
+
+cd /home
+chmod 711 user
+
+cd /home/user
+mkdir public_html
+
+echo "This is my web page" > public_html/index.html
+chown user:user -R public_html
+chmod 755 -R public_html
+
+browser:  navigate to [IP]/index.html
+# turn selinux off to test
+setenforce 0
+
+semanage boolean -l | grep httpd_enable_homedirs
+
+# enable for this session
+setsebool httpd_enable_homedirs on
+
+# check it
+semanage boolean -l | grep httpd_enable_homedirs
+	shows:  (on . off)		meaning current is on, but default is off		
+							next reboot will revert it back to off
+							
+# make it persistent with -P flag
+setsebool -P httpd_enable_homedirs on
+
+
+# must set the correct boolean and make sure it is turned on
+

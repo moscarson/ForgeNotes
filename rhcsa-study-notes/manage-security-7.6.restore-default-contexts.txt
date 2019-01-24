@@ -1,0 +1,34 @@
+# list all file contexts
+semanage fcontext -l
+
+# set file contexts
+semanage fcontext -l|grep /var/www
+
+	shows httpd_sys_content_t
+
+# set up /content directory for hosting apache files
+# use it instead of /var/www/html
+mkdir /content	
+chown apache:apache /content
+vim /etc/httpd/conf/httpd.conf		configure /content directory
+vim /content/index.html
+	
+# set file contexts
+# recursively
+# every file and directory
+# OK if no files under it
+semanage fcontext -a -t httpd_sys_content_t '/content(/.*)?'
+
+# fix everything in the directory
+restorecon -Rv /content
+
+# put in permissive for debugging purposes
+setenforce 0
+
+# re-enable enforcing mode
+setenforce 1
+
+# remove context
+# if you do this, make sure to change the context of everything currently configured with it
+semanage fcontext -d '/content(/.*)?'
+

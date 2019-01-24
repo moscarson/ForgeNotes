@@ -1,0 +1,32 @@
+# get current context
+ls -Z
+
+# install httpd
+yum -y install httpd
+systemctl start httpd
+systemctl enable httpd
+
+# get context of httpd
+cd /var
+ls -Zd www
+
+# list all of the available file contexts
+semanage fcontext -l
+semanage fcontext -l|grep httpd
+
+# if you create a file in a directory, it inherits file contexts from the directory
+# if you then move that file to a different directory it retains its context
+# it does not change it to match the target directory
+# watch out for moving or copying files into /var/www/html directory
+
+# get the context of the httpd processes
+ps auxZ|grep httpd
+
+# restore it
+restorecon index.html
+
+# the first time selinux is enabled it labels all files on the system
+
+# force a relabel of all files on the system at next reboot
+touch /.autorelabel
+

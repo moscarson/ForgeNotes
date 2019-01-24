@@ -1,0 +1,82 @@
+firewalld
+	can be managed from command line or gui
+	
+# install packages
+yum install firewalld firewall-config
+
+# start and enable it
+systemctl start firewalld
+systemctl enable firewalld
+
+# runtime change does not require reload of configuration
+# does not survive restart of firewalld service
+# in the exam yu may be asked to make a runtime change that does not survive a reboot
+
+# by default, you are always working in the default zone
+# public zone applies to everything
+# get zones
+firewall-cmd get-zones
+
+# get current zone
+# adding rule without specifying a zone adds it to current zone
+firewall-cmd --get-default-zone
+
+# get help
+firewall-cmd --help
+man firewalld
+
+# view current rules
+firewall-cmd --list-all
+
+# view rules for home zone
+firewall-cmd --zone=home --list-all
+
+# add a source and verify it.  this is temporary until reload
+firewall-cmd --zone=home --add-source=192.168.1.0/24
+firewall-cmd --zone=home --list-all
+
+# reload rules
+firewall-cmd --reload
+
+# add a permanent change and reload to make it effective
+firewall-cmd --zone=home --permanent --add-source=192.168.1.0/24
+firewall-cmd --reload
+
+# use apache to illustrate 
+yum -y install httpd
+systemctl start httpd
+systemctl enable httpd
+
+# add apache to public zone (not permanent)
+firewall-cmd --zone=public --add-port=80/tcp
+firewall-cmd --zone=public --list-all
+
+# add apache to public zone (make it permanent)
+firewall-cmd --zone=public --add-port=80/tcp --permanent
+firewall-cmd --reload
+firewall-cmd --zone=public --list-all
+
+# gui interface
+firewall-config
+
+	# if you start firewall-config and everything grayed out, firewalld is not running.  start it
+
+	can specify runtime or permanent changes
+	
+# panic mode - lock down everything except local console
+firewall-cmd --panic-on
+firewall-cmd --query-panic
+
+
+
+
+
+
+
+
+
+
+
+
+
+
