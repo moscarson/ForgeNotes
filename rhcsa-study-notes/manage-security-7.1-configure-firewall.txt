@@ -66,17 +66,3 @@ firewall-config
 # panic mode - lock down everything except local console
 firewall-cmd --panic-on
 firewall-cmd --query-panic
-
-
-
-
-
-
-
-
-
-
-
-
-
-

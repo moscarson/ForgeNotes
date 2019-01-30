@@ -1,0 +1,19 @@
+# which network devices are attached
+ls /sys/class/net
+nmcli dev status
+
+# graphical
+nmtui
+
+# show all connections
+nmcli con show
+
+cd /etc/sysconfig/network-scripts
+
+nmcli con add 
+
+
+
+
+
+

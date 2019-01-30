@@ -1,0 +1,30 @@
+# get ip addresses
+ip addr
+ip addr show eth0
+
+# ping site 5 times
+ping -c5 [ip addr]
+
+# use tracepath to see route to a site
+# some routers do not support it
+tracepath [ip addr]
+
+# use traceroute
+traceroute google.com
+
+#  look at all listening ports and established connections
+ss -a
+
+# view only tcp sockets and established connections
+ss -at
+
+# see port number (internal port)
+ss -atn
+
+# view only udp sockets and established connections
+ss -au
+
+# show statistics for network
+ip -s link show eth0
+
+

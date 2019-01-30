@@ -10,6 +10,7 @@ setenforce 1
 
 # make setting permanent
 /etc/selinux/config
+
 	SELINUX=enforcing
 	SELINUX=permissive
 	SELINUX=disabled

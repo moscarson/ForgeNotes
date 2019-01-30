@@ -1,0 +1,41 @@
+
+not all file systems support ACL
+
+	ext4 and xfs do support it by default
+	
+useradd starbuck
+
+touch /tmp/file1
+
+getfacl /tmp/file1
+
+# give user starbuck read/write perms on file1
+setfacl -m u:starbuck:rw file1
+
+# mask - gives maximum permissions 
+# changing mask.  set minimum permissions
+setfacl -m m::r file1
+
+groupadd finance
+# modify acl for group
+setfacl -m g:finance:rw file1
+
+# check it
+getfacl file1
+
+# set default ACL on directory so files and dirs inside of it will inherit default permissions
+setfacl -d -m u:starbuck:rw dir1
+
+getfacl dir1
+
+# make it so starbuck can navigate into dir - i.e. give it execute
+setfacl -m u:starbuck:rwx dir1
+
+# remove permissions from dir1
+setfact --remove-default dir1
+
+getfacl dir1
+
+# add execute perms on directory but not on files
+-X
+

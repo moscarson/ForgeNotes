@@ -1,3 +1,16 @@
+cd /root
+mkdir finance
 
+groupadd finance
 
+chgrp finance finance
+
+# configure directory so that all files created in it will be set to the group of the directory
+# will show up as with s in group perms as in:		
+	drwxr-sr-w
+		
+chmod g+s /root/finance
+
+# create a file.  it will be group owned by finance due to the set gid setting on the directory
+touch /root/finance/file1.txt
 
