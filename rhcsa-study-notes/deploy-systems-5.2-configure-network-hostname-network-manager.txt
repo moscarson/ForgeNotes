@@ -1,16 +1,42 @@
 # which network devices are attached
 ls /sys/class/net
 nmcli dev status
+nmcli dev show
 
-# graphical
+
+# text based graphical interface
 nmtui
 
 # show all connections
 nmcli con show
 
+# show active connections
+nmcli con show --active
+
 cd /etc/sysconfig/network-scripts
 
-nmcli con add 
+# add a connection eth1.  it creates script in /etc/sysconfig/network-scripts
+nmcli con add help
+nmcli con add con-name "myconnection" autoconnect yes ethernet ifname eth1 
+nmcli con show
+
+# specify IP and gateway
+nmcli con add con-name "myconnection" autoconnect yes ethernet ifname eth1 ip4 10.0.0.12 gw4 10.0.0.1
+
+# bring up/down connection
+nmcli con down "connectionname"
+nmcli con up "connectionname"
+
+# modify connection
+# sets "ONBOOT=yes" in script in /etc/sysconfig/network-scripts
+nmcli con mod "connectionname" connection.autoconnect yes
+
+# delete connection
+nmcli con del "connectionname"
+
+
+# confirm
+nmcli con show
 
 
 

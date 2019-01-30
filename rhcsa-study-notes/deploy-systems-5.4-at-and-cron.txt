@@ -1,0 +1,93 @@
+# install at
+yum install at
+systemctl start atd
+systemctl enable atd
+
+# how to find configuration files for a package
+rpm -qc at
+
+# schedule a task
+at now + 5 minutes
+at> reboot
+ctrl-d
+
+# view queued jobs
+atq
+
+# remove a job
+at rm 1
+
+# logger
+at now + 1 minute
+at> logger "The current system time is $(uptime)"
+ctrl-d
+
+# check system log
+journalctl -xn
+
+# control access to at
+can use either /etc/at.deny or /etc/at.allow
+
+if user entry in at.deny
+	all users except those in at.deny are allowed to use at
+
+if user entry in at.allow
+	only those users are allowed to use at
+
+# if system is powered off at a cron entry's scheduled time, it will be missed
+	
+# control access to cron
+	uses cron.allow and cron.deny then it works the same as at
+
+	
+# edit user's crontab
+# it does not have the user-name entry
+crontab -e
+
+# run a script every five minutes, every hour, every day, etc
+*/5 * * * * root /root/script.sh
+
+# edit root's cron
+
+# run something hourly or daily or weekly 
+cp script.sh /etc/cron.hourly
+cp script.sh /etc/cron.daily 
+cp script.sh /etc/cron.weekly
+
+# hourly cron scripts scheduled and run via
+vim /etc/cron.d/0hourly
+
+# cron executions are logged 
+# it keeps track of the last run of the daily, weekly, and monthly cron run 
+ls -l /var/spool/anacron
+cat /var/spool/anacron/cron.daily
+
+# how are the daily, weekly and monthly scripts scheduled and run
+# anacron is only for priviledged users
+vim /etc/anacrontab
+
+	RANDOM_DELY			waits a random time before running cron
+	
+	#period in days			delay in minutes		job-identifier		command
+	3						5						uptimelog					/root/uptimelog.sh
+
+# force the execution of anacron.  if -n specified, ignore delays
+man anacron
+anacron -n
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

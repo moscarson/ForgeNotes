@@ -1,0 +1,36 @@
+# name server.  
+# file is modified by network manager
+# don't edit it directly
+/etc/resolv.conf
+	search
+	nameserver
+	
+# display hostname
+hostnamectl	status
+
+# change hostname on system.  updates /etc/hostname
+hostnamectl set-hostname newhostname.com
+
+# show status
+nmcli con show
+
+# change DNS server to google.com
+nmcli con mod "System eth0" ipv4.dns 8.8.8.8
+
+# add a second DNS server with + sign
+nmcli con mod "System eth0" +ipv4.dns 10.10.10.10
+
+# remove a DNS server with a - sign
+nmcli con mod "System eth0" -ipv4.dns 10.10.10.10
+
+# /etc/nsswitch.conf configures hostname resolution
+grep ^hosts /etc/nsswitch.conf
+
+# if files is set first and if an entry for a host is in /etc/hosts, getent will only return 
+# the IP of the /etc/hosts entry and not from DNS
+
+# find a hostname
+getent hosts linuxacademy.com
+getent hosts google.com
+
+ 
