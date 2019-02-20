@@ -10,7 +10,7 @@ systemctl enable firewalld
 
 # runtime change does not require reload of configuration
 # does not survive restart of firewalld service
-# in the exam yu may be asked to make a runtime change that does not survive a reboot
+# in the exam you may be asked to make a runtime change that does not survive a reboot
 
 # by default, you are always working in the default zone
 # public zone applies to everything

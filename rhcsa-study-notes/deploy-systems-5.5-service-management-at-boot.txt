@@ -1,29 +1,44 @@
-# show current boot setting
+# system configuration based on targets
+# whenever a service moves into a given target, all services associated with that target are started 
+
+# install apache
+yum -y install httpd
+
+# check status
+systemctl is-enabled httpd
+systemctl list-unit-files --type=service | grep httpd
+
+# start service
+systemctl start httpd
+
+# stop service
+systemctl stop httpd
+
+# configure service to start at boot
+# make sure you are in the target in which you want it to be enabled in
+
+# check target mode
 systemctl get-default
 
-# boot into graphical mode
+# changing target (i.e. change current run level)
+systemctl set-default multi-user.target
 systemctl set-default graphical.target
+systemctl set-default basic.target
 
-# show run levels
-ls -l /usr/lib/systemd/system/runlevel?.target
-lrwxrwxrwx. 1 root root 15 Jan  3  2018 /usr/lib/systemd/system/runlevel0.target -> poweroff.target
-lrwxrwxrwx. 1 root root 13 Jan  3  2018 /usr/lib/systemd/system/runlevel1.target -> rescue.target
-lrwxrwxrwx. 1 root root 17 Jan  3  2018 /usr/lib/systemd/system/runlevel2.target -> multi-user.target
-lrwxrwxrwx. 1 root root 17 Jan  3  2018 /usr/lib/systemd/system/runlevel3.target -> multi-user.target
-lrwxrwxrwx. 1 root root 17 Jan  3  2018 /usr/lib/systemd/system/runlevel4.target -> multi-user.target
-lrwxrwxrwx. 1 root root 16 Jan  3  2018 /usr/lib/systemd/system/runlevel5.target -> graphical.target
-lrwxrwxrwx. 1 root root 13 Jan  3  2018 /usr/lib/systemd/system/runlevel6.target -> reboot.target
+# enable it in that target
+# enabling it will create script in /etc/systemd/system/multi-user.target.wants
+systemctl enable httpd
 
-# show current
-runlevel
+# check directory. 
+# everything there is enabled
+ls /etc/systemd/system/multi-user.target.wants
 
+# what target does service belong to
+systemctl list-dependencies | grep httpd
 
-OR
+# Lists currently loaded target units
+systemctl list-units --type target	
 
-
-ls -l /etc/systemd/system/default.target
-
-lrwxrwxrwx. 1 root root 37 Jan  3  2018 /etc/systemd/system/default.target -> /lib/systemd/system/multi-user.target
-
-
-
+# during certification exam, reboot system and check if service is running
+reboot
+systemctl status httpd

@@ -1,0 +1,29 @@
+
+# look for packages that have an update available
+yum check-update
+
+# look for a package by searching all details in package
+# all keyword makes it look in all package info, instead of just title and description
+yum search all apache
+
+# info about package
+yum info apache
+
+# install package
+yum install httpd
+
+# list all installed packages or just one package
+yum list installed
+yum list installed httpd
+
+# what package provides a file or directory
+yum provides /var/www
+
+# show all available and installed packages
+yum list all
+
+# clean up yum cache, temp files
+yum clean all
+
+
+

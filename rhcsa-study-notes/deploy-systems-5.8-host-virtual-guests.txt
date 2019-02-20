@@ -1,0 +1,18 @@
+# configure a physical machine to host Virtual Machines
+
+MEMORIZE THESE PACKAGES
+# install packages to support it
+yum install virsh virt-manager qemu-kvm qemu-img
+yum install libvirt libvirt-python python-virtinst libvirt-client
+
+# enable libvirtd
+systemcl enable libvirtd
+systemcl start libvirtd
+
+# open application
+click applications, system tools, virtual machine manager
+
+# command line
+virsh
+
+

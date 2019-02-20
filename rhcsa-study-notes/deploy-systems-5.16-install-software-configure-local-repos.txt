@@ -1,0 +1,27 @@
+
+# create directory
+mkdir -p /repos/local
+
+# mount CDROM as a block device
+mount -o loop rhel-server-7.1-x86_64-dvd.iso /repos/local
+
+# point repo to that distribution
+vi /etc/yum.repos.d/local-repo.repo
+
+[local-repo]
+name=Redhat Local Repo
+baseurl=file:///repos/local
+enabled=1
+gpgcheck=0
+
+# list it - should show the local one
+yum repolist
+
+# make sure emacs is not installed
+yum list installed emacs
+
+# test repo
+yum search emacs
+yum install emacs
+
+

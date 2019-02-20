@@ -1,0 +1,41 @@
+# kickstart script that can be customized for a given rhel installation
+
+vim /root/anaconda-ks.cfg
+
+# how to install RPMs during kickstart of a machine
+# insert RPM names after
+%packages
+httpd
+mysql
+
+@core
+
+%end
+# need to know how to modify a kickstart script and then launch a VM using that script
+# to use KVM must be on a physical machine
+
+# install utility that provides GUI interface for configuring kickstart
+yum install system-config-kickstart
+
+# run that GUI to configure kickstart
+system-config-kickstart
+
+# documentation
+rpm -qd pykickstart
+review the kickstart-docs.txt
+
+# launch a machine using kickstart
+virtual machine manager
+new VM
+	Network Boot (PXE)
+	OS Type: Linux
+	Ram and CPU size
+	Memory Size
+	Disk partition size
+	
+	Finish
+	
+	Automatically boots from PXE server and installs OS
+	
+	
+

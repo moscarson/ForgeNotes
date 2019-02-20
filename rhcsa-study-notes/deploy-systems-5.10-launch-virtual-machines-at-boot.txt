@@ -1,0 +1,19 @@
+when running KVM on a system, you need to configure system to automatically restart VMs
+after a system reboot
+
+# enable libvirtd
+systemctl enable libvirtd
+systemctl start libvirtd
+
+# configure VMs to autostart whenever KVM server starts
+virsh
+
+	# show all VMs
+	list --all
+	
+	# configure autostart
+	autostart [vm name]
+	
+	
+	
+	

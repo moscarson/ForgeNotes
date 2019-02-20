@@ -1,0 +1,26 @@
+
+# epel
+cd /etc/yum.repos.d
+
+# enable gpg checking in repo file
+gpgcheck=1
+
+	will need to download the gpg keyfile and then specify in the repo file where it is located
+	
+# show enabled repos
+yum repolist
+
+# show enabled and disabled repos
+yum repolist all
+
+# enable one of those repos
+yum-config-manager --add-repo=http://d1.fedoraproject.org/pub/epel/7/x64_64
+
+# confirm
+cat /etc/yum.repos.d/d1.fedoraproject.org_pub_epel_7_x64_64.repo
+yum repolist
+
+# disable a repo
+# get repo-id
+yum repolist
+yum-config-manager --disable [repo-id]

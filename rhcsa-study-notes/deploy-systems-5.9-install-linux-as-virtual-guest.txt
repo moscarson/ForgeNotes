@@ -1,0 +1,25 @@
+# run GUI
+apps, system tools, virtual machine manager
+
+file, new VM
+
+	local install media (ISO)
+		select it
+	RAM and CPU
+	Enable storage, 8 GB
+	Install per usual GUI process
+	install SW, set root, PW, etc
+	
+log in to VM
+
+# show network interfaces
+nmcli con show
+
+# turn on ens3 interface
+nmcli con up ens3
+
+# configure interface to start at bootup.  it modifies /etc/sysconfig/network-scripts/ifcfg-ens3
+nmcli con mod ens3 connection.autoconnect yes
+
+# use tab tab to use bash completion
+

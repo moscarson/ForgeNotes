@@ -1,0 +1,22 @@
+
+# add repo
+yum-config-manager --add-repo http://dl.fedoraproject.org/pub/epel/7/x86_64/
+
+# go to repo in browser and copy URL for GPG key for your version of the OS
+https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7Server
+
+# download it
+wget https://dl.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-7Server
+
+# move it to correct directory
+mv RPM-GPG-KEY-EPEL-7 /etc/pki/rpm/RPM-GPG-KEY-EPEL-7
+
+# edit repo file to use it 
+# add two lines
+vim /etc/yum.repos.d/local-repo.repo
+
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm/RPM-GPG-KEY-EPEL-7
+
+# test it - make sure it asks you to import the GPG key, imports it, and installs the software
+yum install python-pip

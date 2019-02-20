@@ -1,0 +1,21 @@
+
+# documentation for a package
+
+# download a package but do not install it
+yumdownloader nano
+
+# install it verbosely, with a hash progress bar
+rpm -ivh ./nano-2.3.10-10.el7.x86_64.rpm
+
+# confirm it
+rpm -qa|grep nano
+
+# files in nano RPM
+rpm -ql nano
+
+# documentation in nano RPM
+rpm -qd nano
+
+# erase it
+rpm -e nano
+

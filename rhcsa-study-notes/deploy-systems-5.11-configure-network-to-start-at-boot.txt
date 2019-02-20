@@ -1,0 +1,12 @@
+# make sure these are enabled
+systemctl  list-units | grep network.target
+systemctl list-dependencies multi-user.target | grep network
+
+# ensure network interface configured to start at boot
+grep -i onboot /etc/sysconfig/network-scripts/ifcfg-ens3
+nmcli con mod "ens3" connection.autoconnect yes
+
+# make sure services are configured to start at boot
+e.g.
+systemctl enable httpd
+

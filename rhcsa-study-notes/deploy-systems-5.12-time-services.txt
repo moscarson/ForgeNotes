@@ -1,0 +1,43 @@
+# get info about time configuration
+# e.g. is NTP enabled.  is it synchronized 
+timedatectl
+
+man timedatectl
+
+# ntp daemon for RHEL7.  this replaces ntpd
+chronyd
+systemctl status chronyd
+
+# status of NTP
+chronyc sources -v
+	lowest stratum is most reliable 
+	stratum of 1 is best
+
+chronyc tracking
+	
+# restart chronyd, wait a minute or so, and then recheck it
+systemctl restart chronyd
+chronyc sources -v
+
+# disable/enable NTP
+timedatectl set-ntp [ false | true ]
+
+# get available time zones
+timedatectl list-timezones
+
+# utility to find timezones
+# it does not set it
+# just tells you what it should be set to 
+tzselect
+
+# set date/time to make it close.  then restart chronyc
+timedatectl set-timezone America/Chicago
+
+# configure system to use a specific timeserver
+/etc/chrony.conf
+# restart it
+systemctl restart chronyd
+
+# check it
+chronyc sources -v
+
