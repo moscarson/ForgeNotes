@@ -1,0 +1,3 @@
+Navigate to the following URL to access The ECS Captain's Log:
+
+https://interactive.linuxacademy.com/diagrams/ECSCaptainsLog.html
